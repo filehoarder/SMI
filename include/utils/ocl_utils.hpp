@@ -37,8 +37,12 @@ public:
 
 	bool found=findPlatform("Intel(R) FPGA SDK for OpenCL(TM)",platform);
 	if(!found) {
-	    std::cerr<< "ERROR: Unable to find Intel(R) FPGA OpenCL platform" <<std::endl;
-	    return false;
+		// try to find emulation platform 
+		found=findPlatform("Intel(R) FPGA Emulation Platform for OpenCL(TM)",platform);	
+		if(!found) {
+			std::cerr<< "ERROR: Unable to find Intel(R) FPGA OpenCL (Emulation) platform" <<std::endl;  
+			return false;
+		}
 	}
 	//get the first device of type accelerator
 	std::vector<cl::Device> devices;
@@ -215,6 +219,8 @@ private:
 	binaries.push_back(std::make_pair(binary,binary_size));
         std::vector<cl_int> status(1);
         program=cl::Program(context,{device},binaries,&status);
+        // build Program to support CPU Emulation
+        program.build();
 
         checkError(status[0], __FILE__,__LINE__, "Failed to create program with binary");
     }
