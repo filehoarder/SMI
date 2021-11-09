@@ -35,13 +35,15 @@ public:
     {
 	cl_int status;
 
-	bool found=findPlatform("Intel(R) FPGA SDK for OpenCL(TM)",platform);
-	if(!found) {
-		// try to find emulation platform 
-		found=findPlatform("Intel(R) FPGA Emulation Platform for OpenCL(TM)",platform);	
+	if (platform == nullptr) {
+		bool found=findPlatform("Intel(R) FPGA SDK for OpenCL(TM)",platform);
 		if(!found) {
-			std::cerr<< "ERROR: Unable to find Intel(R) FPGA OpenCL (Emulation) platform" <<std::endl;  
-			return false;
+			// try to find emulation platform 
+			found=findPlatform("Intel(R) FPGA Emulation Platform for OpenCL(TM)",platform);	
+			if(!found) {
+				std::cerr<< "ERROR: Unable to find Intel(R) FPGA OpenCL (Emulation) platform" <<std::endl;  
+				return false;
+			}
 		}
 	}
 	//get the first device of type accelerator
