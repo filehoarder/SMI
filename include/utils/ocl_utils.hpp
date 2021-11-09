@@ -35,7 +35,7 @@ public:
     {
 	cl_int status;
 
-	if (platform == nullptr) {
+	if (&platform == nullptr) {
 		bool found=findPlatform("Intel(R) FPGA SDK for OpenCL(TM)",platform);
 		if(!found) {
 			// try to find emulation platform 
