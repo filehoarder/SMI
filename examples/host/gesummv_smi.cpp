@@ -17,6 +17,11 @@
 #include "smi_generated_host.c"
 #define ROUTING_DIR "smi-routes/"
 
+#if !defined(CL_CHANNEL_1_INTELFPGA)
+// include this header if channel macros are not defined in cl.hpp (versions >=19.0)
+#include "CL/cl_ext_intelfpga.h"
+#endif
+
 using namespace std;
 float *A,*B,*x,*y;
 float *fpga_res_y;
@@ -348,7 +353,7 @@ int main(int argc, char *argv[])
             usleep(10000);
         //Start computation
         for(int i=0;i<num_kernels;i++)
-            queues[i].enqueueTask(kernels[i],nullptr,&events[i]);
+            queues[i].enqueueNDRangeKernel(kernels[i],cl::NullRange,cl::NDRange(1));
         for(int i=0;i<kernel_names.size();i++)
             queues[i].finish();
 

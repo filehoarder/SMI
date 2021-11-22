@@ -9,6 +9,7 @@ set(SMI_REWRITER "${CMAKE_BINARY_DIR}/source-rewriter/rewriter")
 set(SMI_FMAX "480" CACHE STRING "Target Fmax when compiling for hardware.")
 set(SMI_DEVICES_PER_NODE 2 CACHE STRING "Number of FPGA devices per node.")
 
+set(CL_HPP_TARGET_OPENCL_VERSION 200 CACHE STRING "CL Version")
 option (ENABLE_TESTS "Enables testing" OFF)
 
 # Dependencies

@@ -33,6 +33,8 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
+message(STATUS "gtest_src_dir: ${gtest_SOURCE_DIR}")
+
 # Now simply link against gtest or gtest_main as needed. Eg
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lgtest")

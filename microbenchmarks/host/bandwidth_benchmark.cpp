@@ -166,8 +166,8 @@ int main(int argc, char *argv[])
         //
         if(rank==0 || rank==recv_rank)
         {
-            queues[0].enqueueTask(kernels[0],nullptr,&events[0]);
-            queues[1].enqueueTask(kernels[1],nullptr,&events[1]);
+            queues[0].enqueueNDRangeKernel(kernels[0],cl::NullRange,cl::NDRange(1),cl::NullRange,nullptr,&events[0]);
+            queues[1].enqueueNDRangeKernel(kernels[1],cl::NullRange,cl::NDRange(1),cl::NullRange,nullptr,&events[1]);
 
             queues[0].finish();
             queues[1].finish();

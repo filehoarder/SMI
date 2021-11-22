@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
         cl::Event events; //this defination must stay here
         // wait for other nodes
         CHECK_MPI(MPI_Barrier(MPI_COMM_WORLD));
-        queue.enqueueTask(kernel,nullptr,&events);
+        queue.enqueueNDRangeKernel(kernel,cl::NullRange,cl::NDRange(1),cl::NullRange,nullptr,&events);
 
         queue.finish();
 

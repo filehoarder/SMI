@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
         cl::Event event;
         CHECK_MPI(MPI_Barrier(MPI_COMM_WORLD));
 
-        queue.enqueueTask(kernel,nullptr,&event);
+        queue.enqueueNDRangeKernel(kernel,cl::NullRange,cl::NDRange(1),cl::NullRange,nullptr,&event);
         queue.finish();
 
 

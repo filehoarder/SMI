@@ -16,7 +16,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 
-#include "CL/cl.hpp"
+#include "CL/cl2.hpp"
 
 /**
  * @brief The IntelFPGAOCLUtils class contains a set of basic utilities for interacting
@@ -217,14 +217,13 @@ private:
 	std::vector<cl::Device> dev;
 	dev.push_back(device);
 	//create the vector with the binaries to pass to the constructor of cl::Program
-	std::vector<std::pair<const void*, size_t>> binaries;
-	binaries.push_back(std::make_pair(binary,binary_size));
-        std::vector<cl_int> status(1);
-        program=cl::Program(context,{device},binaries,&status);
+	cl::Program::Binaries binaries{binary_size};
+        cl_int status;
+        program=cl::Program(context,dev,binaries,NULL,&status);
         // build Program to support CPU Emulation
         program.build();
 
-        checkError(status[0], __FILE__,__LINE__, "Failed to create program with binary");
+        checkError(status, __FILE__,__LINE__, "Failed to create program with binary");
     }
 
     static bool fileExists(const char *file_name) {

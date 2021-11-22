@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
         //
         if(rank==0 || rank==recv_rank)
         {
-            queue.enqueueTask(kernel,nullptr,&event);
+            queue.enqueueNDRangeKernel(kernel,cl::NullRange,cl::NDRange(1),cl::NullRange,nullptr,&event);
             queue.finish();
         }
         CHECK_MPI(MPI_Barrier(MPI_COMM_WORLD));

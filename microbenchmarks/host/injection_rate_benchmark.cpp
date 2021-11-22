@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
 
         if(rank==0 || rank==recv_rank)
         {
-            queue.enqueueTask(kernel,nullptr,&event);
+            queue.enqueueNDRangeKernel(kernel,cl::NullRange,cl::NDRange(1),cl::NullRange,nullptr,&event);
             queue.finish();
         }
         timestamp_t end=current_time_usecs();
