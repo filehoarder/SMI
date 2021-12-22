@@ -9,7 +9,6 @@ set(SMI_REWRITER "${CMAKE_BINARY_DIR}/source-rewriter/rewriter")
 set(SMI_FMAX "480" CACHE STRING "Target Fmax when compiling for hardware.")
 set(SMI_DEVICES_PER_NODE 2 CACHE STRING "Number of FPGA devices per node.")
 
-set(CL_HPP_TARGET_OPENCL_VERSION 200 CACHE STRING "CL Version")
 option (ENABLE_TESTS "Enables testing" OFF)
 
 # Dependencies
@@ -26,7 +25,7 @@ set(SMI_LIBS ${CMAKE_THREAD_LIBS_INIT} ${IntelFPGAOpenCL_LIBRARIES} ${MPI_CXX_LI
 set(GTEST_LIBS "-lgtest")
 
 # Build flags for host executables
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -DHLSLIB_INTEL ${MPI_CXX_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -DCL_HPP_TARGET_OPENCL_VERSION=200 -DHLSLIB_INTEL ${MPI_CXX_COMPILE_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--disable-new-dtags")
 
 

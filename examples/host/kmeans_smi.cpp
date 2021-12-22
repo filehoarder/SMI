@@ -218,7 +218,7 @@ int main(int argc, char **argv) {
       // Will never terminate, so we don't care about the return value of fork
     //  k.ExecuteTaskFork(); //HLSLIB
         cl::CommandQueue queue=k.commandQueue();
-        queue.enqueueTask(k.kernel());
+        queue.enqueueNDRangeKernel(k.kernel(), cl::NullRange, cl::NDRange(1));
         queue.flush();
 
     }
@@ -253,7 +253,7 @@ int main(int argc, char **argv) {
     for(int i=0;i<3;i++){
       //futures.emplace_back(k.ExecuteTaskAsync()); //HLSLIB
         cl::CommandQueue queue=kernels[i].commandQueue();
-        queue.enqueueTask(kernels[i].kernel(),nullptr, &events[i]);
+        queue.enqueueNDRangeKernel(kernels[i].kernel(),cl::NullRange,cl::NDRange(1),cl::NullRange,nullptr, &events[i]);
         //queue.flush();
     }
 

@@ -51,7 +51,7 @@ bool runAndReturn(cl::CommandQueue &queue, cl::Kernel &kernel, cl::Buffer &check
     MPI_Barrier(MPI_COMM_WORLD);
     if(my_rank==0 || my_rank==recv_rank)
     {
-        queue.enqueueTask(kernel);
+        queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(1));
 
         queue.finish();
     }

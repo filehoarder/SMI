@@ -258,7 +258,7 @@ int main(int argc, char **argv) {
       // Will never terminate, so we don't care about the return value of fork
       //k.ExecuteTaskFork(); //HLSLIB
         cl::CommandQueue queue=k.commandQueue();
-        queue.enqueueTask(k.kernel());
+        queue.enqueueNDRangeKernel(k.kernel(), cl::NullRange, cl::NDRange(1));
         queue.flush();
     }
 
@@ -288,7 +288,7 @@ int main(int argc, char **argv) {
         cl::Kernel ker=k.kernel();
         ker.setArg(2,sizeof(SMI_Comm),&comm);
 
-        queue.enqueueTask(ker);
+        queue.enqueueNDRangeKernel(ker, cl::NullRange, cl::NDRange(1));
         queue.flush();
 
 

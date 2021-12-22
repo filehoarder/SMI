@@ -52,7 +52,7 @@ bool runAndReturn(cl::CommandQueue &queue, cl::Kernel &kernel, cl::Buffer &check
     //only rank 0 and the recv rank start the app kernels
     MPI_Barrier(MPI_COMM_WORLD);
     
-    queue.enqueueTask(kernel);
+    queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(1));
 
     queue.finish();
     
