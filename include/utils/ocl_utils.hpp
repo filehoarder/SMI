@@ -56,7 +56,7 @@ public:
         device=devices[device_id];
 
 	// Create the context
-	context=cl::Context({device});
+	context=cl::Context(device);
 	//create the program
 	createProgramFromBinary(context, program,program_path.c_str(),device, emulation);
 	return true;
