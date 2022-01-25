@@ -101,13 +101,10 @@ function(smi_target TARGET_NAME CONNECTION_FILE HOST_SOURCE KERNELS NUM_RANKS)
         )
         add_dependencies(${KERNEL_TARGET} rewriter)
 
-        # compile FPGA code
-        set(FPGA_SRC_FILES "${KERNEL_GENERATED_PATH} -I${KERNEL_BIN_DIR}")
-
         # generate report
         set(FPGA_REPORT_TARGET ${TARGET_NAME}_${KERNEL_NAME}_aoc_report)
         add_custom_target(${FPGA_REPORT_TARGET}
-                COMMAND ${IntelFPGAOpenCL_AOC} ${AOC_COMMAND} ${FPGA_SRC_FILES} -rtl -report
+                COMMAND ${IntelFPGAOpenCL_AOC} ${KERNEL_GENERATED_PATH} -I${KERNEL_BIN_DIR} ${AOC_COMMAND} -rtl -report
                 WORKING_DIRECTORY ${KERNEL_BIN_DIR}
         )
         add_dependencies(${FPGA_REPORT_TARGET} ${KERNEL_TARGET})
@@ -115,7 +112,7 @@ function(smi_target TARGET_NAME CONNECTION_FILE HOST_SOURCE KERNELS NUM_RANKS)
         # build hardware
         set(FPGA_BUILD_TARGET ${TARGET_NAME}_${KERNEL_NAME}_aoc_build)
         add_custom_target(${FPGA_BUILD_TARGET}
-            COMMAND ${IntelFPGAOpenCL_AOC} ${AOC_COMMAND} ${FPGA_SRC_FILES}
+            COMMAND ${IntelFPGAOpenCL_AOC} ${KERNEL_GENERATED_PATH} -I${KERNEL_BIN_DIR} ${AOC_COMMAND}
             WORKING_DIRECTORY ${KERNEL_BIN_DIR}
         )
         add_dependencies(${FPGA_BUILD_TARGET} ${KERNEL_TARGET})
@@ -174,15 +171,13 @@ function(smi_target TARGET_NAME CONNECTION_FILE HOST_SOURCE KERNELS NUM_RANKS)
 
         list(GET FPGA_SOURCES ${KERNEL_INDEX} USER_DEVICE_SRC)
         list(GET FPGA_GENERATED_SOURCES ${KERNEL_INDEX} SMI_DEVICE_SRC)
-        set(FPGA_SRC_FILES "${USER_DEVICE_SRC}")
 
         set(EMULATION_WORKDIR ${WORKDIR}/emulator_${SMI_EMULATION_RANK})
         file(MAKE_DIRECTORY ${EMULATION_WORKDIR})
         set(EMULATOR_TARGET_RANK ${EMULATOR_TARGET}_${SMI_EMULATION_RANK})
         add_custom_target(${EMULATOR_TARGET_RANK}
-            COMMAND ${IntelFPGAOpenCL_AOC} ${FPGA_SRC_FILES} -I${KERNEL_BIN_DIR} ${AOC_COMMAND} -march=emulator
+            COMMAND ${IntelFPGAOpenCL_AOC} ${USER_DEVICE_SRC} -I${KERNEL_BIN_DIR} ${AOC_COMMAND} -march=emulator
             -DSMI_EMULATION_RANK=${SMI_EMULATION_RANK}
-            -emulator-channel-depth-model=strict
             WORKING_DIRECTORY ${EMULATION_WORKDIR}
         )
         add_dependencies(${EMULATOR_TARGET} ${EMULATOR_TARGET_RANK})
@@ -195,7 +190,7 @@ endfunction()
 #used for non SMI target
 function(fpga_target TARGET_NAME HOST_SOURCE KERNEL GENERATE_KERNEL)
 
-    set(PGA_SOURCES)               # list of transformed user device files (one per program)
+    set(FPGA_SOURCES)               # list of transformed user device files (one per program)
     set(FPGA_GENERATED_SOURCES)     # list of generated device files (one per program)
 
     set(WORKDIR ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME})
