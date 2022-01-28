@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <stdarg.h>
 #include <unistd.h>
+#include <fstream>
 
 #include "CL/cl2.hpp"
 
