@@ -235,7 +235,7 @@ function(fpga_target TARGET_NAME HOST_SOURCE KERNEL GENERATE_KERNEL)
         COMMAND ${IntelFPGAOpenCL_AOC} ${AOC_COMMAND} ${KERNEL}
         WORKING_DIRECTORY ${KERNEL_BIN_DIR}
     )
-    if(USE_CODEGEN)
+    if(GENERATE_KERNEL)
         add_dependencies(${FPGA_BUILD_TARGET} generate_${KERNEL_NAME})
     endif()
 
@@ -257,7 +257,7 @@ function(fpga_target TARGET_NAME HOST_SOURCE KERNEL GENERATE_KERNEL)
         -emulator-channel-depth-model=strict
         WORKING_DIRECTORY ${EMULATION_WORKDIR}
     )
-    if(USE_CODEGEN)
+    if(GENERATE_KERNEL)
         add_dependencies(${EMULATOR_TARGET} generate_${KERNEL_NAME})
     endif()
 endfunction()
