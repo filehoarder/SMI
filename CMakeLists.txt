@@ -220,8 +220,6 @@ function(fpga_target TARGET_NAME HOST_SOURCE KERNEL GENERATE_KERNEL)
     )
 
 
-    set(KERNEL_BIN_DIR ${WORKDIR}/${KERNEL_NAME})
-
     # generate report
     set(FPGA_REPORT_TARGET ${TARGET_NAME}_${KERNEL_NAME}_aoc_report)
     add_custom_target(${FPGA_REPORT_TARGET}
@@ -233,7 +231,7 @@ function(fpga_target TARGET_NAME HOST_SOURCE KERNEL GENERATE_KERNEL)
     set(FPGA_BUILD_TARGET ${TARGET_NAME}_${KERNEL_NAME}_aoc_build)
     add_custom_target(${FPGA_BUILD_TARGET}
         COMMAND ${IntelFPGAOpenCL_AOC} ${AOC_COMMAND} ${KERNEL}
-        WORKING_DIRECTORY ${KERNEL_BIN_DIR}
+        WORKING_DIRECTORY ${WORKDIR}
     )
     if(GENERATE_KERNEL)
         add_dependencies(${FPGA_BUILD_TARGET} generate_${KERNEL_NAME})
