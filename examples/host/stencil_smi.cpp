@@ -7,6 +7,7 @@
 #include <vector>
 #include "common.h"
 #define __HOST_PROGRAM__
+#include <thread>
 #include "hlslib/intel/OpenCL.h"
 #include "stencil.h"
 #include <smi/communicator.h>

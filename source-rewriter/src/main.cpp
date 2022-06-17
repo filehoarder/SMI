@@ -9,8 +9,8 @@ static llvm::cl::OptionCategory Opt("SMI kernel rewriter");
 
 int main(int argc, const char** argv)
 {
-    CommonOptionsParser op(argc, argv, Opt);
-    ClangTool Tool(op.getCompilations(), op.getSourcePathList());
+    llvm::Expected<CommonOptionsParser> op = CommonOptionsParser::create(argc, argv, Opt);
+    ClangTool Tool(op->getCompilations(), op->getSourcePathList());
 
     return Tool.run(clang::tooling::newFrontendActionFactory<SpecializeCallsAction>().get());
 }

@@ -7,6 +7,7 @@
 #include "common.h"
 #define __HOST_PROGRAM__
 
+#include <thread>
 #include <smi/communicator.h>
 #include <mpi.h>
 
