@@ -1,5 +1,6 @@
 #include "utils.h"
 
+#include <clang/AST/Attr.h>
 #include <unordered_set>
 
 using namespace clang;

@@ -38,6 +38,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories("${gtest_SOURCE_DIR}/include")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lgtest")
 
+link_libraries(gtest_main)
 
 #p2p
 smi_target(test_p2p "${CMAKE_CURRENT_SOURCE_DIR}/p2p/p2p.json" "${CMAKE_CURRENT_SOURCE_DIR}/p2p/test_p2p.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/p2p/p2p_rank0.cl;${CMAKE_CURRENT_SOURCE_DIR}/p2p/p2p_rank1.cl" 8)

@@ -40,10 +40,20 @@ public:
 	cl_int status;
 
 	bool found=findPlatform("Intel(R) FPGA SDK for OpenCL(TM)",platform);
+	bool emulation = false;
 	if(!found) {
-	    std::cerr<< "ERROR: Unable to find Intel(R) FPGA OpenCL platform" <<std::endl;
-	    return false;
-	}
+		// try to find emulation platform
+		found=findPlatform("Intel(R) FPGA Emulation Platform for OpenCL(TM)",platform);
+		if(!found) {
+			std::cerr<< "ERROR: Unable to find Intel(R) FPGA OpenCL (Emulation) platform" <<std::endl;
+			return false;
+		} else {
+			std::cout << "Found Emulation Platform" << std::endl;
+			emulation = true;
+		}
+	} else {
+            std::cout << "Found FPGA SDK Platform" << std::endl;
+        }
 	//get the first device of type accelerator
 	std::vector<cl::Device> devices;
 	status=platform.getDevices(CL_DEVICE_TYPE_ACCELERATOR,&devices);
